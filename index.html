@@ -1,0 +1,102 @@
+<!DOCTYPE html>
+<html lang="zh-TW">
+<head>
+    <meta charset="UTF-8">
+    <!-- 修正 1：鎖定視窗縮放比例，防止手機連點時畫面放大縮小 -->
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    <title>直播專用罐頭音效板</title>
+    <style>
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+            font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif;
+        }
+        body {
+            background-color: #121212;
+            color: #ffffff;
+            padding: 20px;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            min-height: 100vh;
+            /* 修正 2：禁止整個頁面因為快速點擊而產生的預設縮放行為 */
+            touch-action: manipulation;
+            -webkit-user-select: none; /* 防止手機長按選取文字 */
+            user-select: none;
+        }
+        h1 {
+            margin-bottom: 20px;
+            font-size: 1.8rem;
+            color: #00d2ff;
+        }
+        .sound-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(140px, 1fr));
+            gap: 15px;
+            width: 100%;
+            max-width: 800px;
+        }
+        .sound-btn {
+            background: linear-gradient(135deg, #2c3e50, #3498db);
+            border: none;
+            border-radius: 12px;
+            color: white;
+            padding: 20px 10px;
+            font-size: 1rem;
+            font-weight: bold;
+            cursor: pointer;
+            box-shadow: 0 4px 6px rgba(0,0,0,0.3);
+            transition: all 0.1s ease;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            height: 100px;
+            /* 修正 3：確保按鈕本身也套用防誤觸特效 */
+            touch-action: manipulation;
+            -webkit-tap-highlight-color: transparent; /* 消除手機點擊按鈕時的閃爍灰框 */
+        }
+        .sound-btn:active, .sound-btn.playing {
+            transform: scale(0.95);
+            background: linear-gradient(135deg, #e74c3c, #f39c12);
+            box-shadow: 0 2px 4px rgba(0,0,0,0.2);
+        }
+        .icon {
+            font-size: 2rem;
+            margin-bottom: 8px;
+        }
+        .controls {
+            margin-top: 25px;
+            display: flex;
+            gap: 15px;
+        }
+        .global-btn {
+            background-color: #333;
+            color: #fff;
+            border: 1px solid #555;
+            padding: 8px 16px;
+            border-radius: 6px;
+            cursor: pointer;
+            touch-action: manipulation;
+        }
+        .global-btn:hover {
+            background-color: #444;
+        }
+    </style>
+</head>
+<body>
+
+    <h1>🎙️ 直播專用罐頭音效板</h1>
+
+    <div class="sound-grid" id="soundGrid">
+        <!-- 音效按鈕會由 JavaScript 動態產生 -->
+    </div>
+
+    <div class="controls">
+        <button class="global-btn" onclick="stopAllSounds()">停止所有聲音</button>
+    </div>
+
+    <script>
+        // 音效清單設定
+        const
