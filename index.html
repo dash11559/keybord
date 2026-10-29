@@ -81,7 +81,7 @@
     <h1>🎙️ 直播專用罐頭音效板</h1>
 
     <div class="sound-grid" id="soundGrid">
-        <!-- 音效按鈕會由下方 JavaScript 動態產生 -->
+        <!-- 音效按鈕會由 JavaScript 動態產生 -->
     </div>
 
     <div class="controls">
@@ -89,17 +89,16 @@
     </div>
 
     <script>
-        // 音效清單設定：名稱、圖示、音檔路徑
-        // 建議音檔放在同個專案下的 sounds 資料夾內
+        // 音效清單設定：已修正為相對路徑 ./sounds/...
         const sounds = [
-            { id: 'applause', name: '掌聲鼓勵', icon: '👏', file: 'sounds/applause.mp3' },
-            { id: 'laugh', name: '笑聲起鬨', icon: '😂', file: 'sounds/laugh.mp3' },
-            { id: 'bad', name: '噓聲起鬨', icon: '👎', file: 'sounds/bad.mp3' },
-            { id: 'suprise', name: '驚嚇效果', icon: '😱', file: 'sounds/suprise.mp3' },
-            { id: 'gag', name: '搞笑音效', icon: '🤪', file: 'sounds/gag.mp3' },
-            { id: 'drum', name: '緊張鼓聲', icon: '🥁', file: 'sounds/drum.mp3' },
-            { id: 'ding', name: '答對囉！', icon: '✨', file: 'sounds/ding.mp3' },
-            { id: 'buzzer', name: '答錯逼逼', icon: '❌', file: 'sounds/buzzer.mp3' }
+            { id: 'applause', name: '掌聲鼓勵', icon: '👏', file: './sounds/applause.mp3' },
+            { id: 'laugh', name: '笑聲起鬨', icon: '😂', file: './sounds/laugh.mp3' },
+            { id: 'bad', name: '噓聲起鬨', icon: '👎', file: './sounds/bad.mp3' },
+            { id: 'suprise', name: '驚嚇效果', icon: '😱', file: './sounds/suprise.mp3' },
+            { id: 'gag', name: '搞笑音效', icon: '🤪', file: './sounds/gag.mp3' },
+            { id: 'drum', name: '緊張鼓聲', icon: '🥁', file: './sounds/drum.mp3' },
+            { id: 'ding', name: '答對囉！', icon: '✨', file: './sounds/ding.mp3' },
+            { id: 'buzzer', name: '答錯逼逼', icon: '❌', file: './sounds/buzzer.mp3' }
         ];
 
         const grid = document.getElementById('soundGrid');
@@ -107,24 +106,21 @@
 
         // 初始化建立按鈕與 Audio 物件
         sounds.forEach(item => {
-            // 建立 Audio 元素
             const audio = new Audio(item.file);
             audio.preload = 'auto';
             audioElements[item.id] = audio;
 
-            // 建立按鈕
             const btn = document.createElement('button');
             btn.className = 'sound-btn';
             btn.innerHTML = `<span class="icon">${item.icon}</span><span>${item.name}</span>`;
             
             btn.addEventListener('click', () => {
-                // 重新播放（即使上一次沒播完也可以重疊或重新觸發）
                 audio.currentTime = 0;
                 audio.play().catch(err => {
                     console.log("播放失敗，請確認音檔是否存在：", err);
+                    alert("播放失敗，找不到音檔： " + item.file);
                 });
 
-                // 按鈕點擊動畫特效
                 btn.classList.add('playing');
                 setTimeout(() => btn.classList.remove('playing'), 150);
             });
