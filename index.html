@@ -99,4 +99,51 @@
 
     <script>
         // 音效清單設定
-        const
+        const sounds = [
+            { id: 'applause', name: '掌聲鼓勵', icon: '👏', file: './sounds/applause.mp3' },
+            { id: 'laugh', name: '笑聲起鬨', icon: '😂', file: './sounds/laugh.mp3' },
+            { id: 'bad', name: '噓聲起鬨', icon: '👎', file: './sounds/bad.mp3' },
+            { id: 'suprise', name: '驚嚇效果', icon: '😱', file: './sounds/suprise.mp3' },
+            { id: 'gag', name: '搞笑音效', icon: '🤪', file: './sounds/gag.mp3' },
+            { id: 'drum', name: '緊張鼓聲', icon: '🥁', file: './sounds/drum.mp3' },
+            { id: 'ding', name: '答對囉！', icon: '✨', file: './sounds/ding.mp3' },
+            { id: 'buzzer', name: '答錯逼逼', icon: '❌', file: './sounds/buzzer.mp3' },
+            { id: 'wolf', name: '凹嗚狼嚎', icon: '🐺', file: './sounds/wolf.mp3' }
+        ];
+
+        const grid = document.getElementById('soundGrid');
+        const audioElements = {};
+
+        // 初始化建立按鈕與 Audio 物件
+        sounds.forEach(item => {
+            const audio = new Audio(item.file);
+            audio.preload = 'auto';
+            audioElements[item.id] = audio;
+
+            const btn = document.createElement('button');
+            btn.className = 'sound-btn';
+            btn.innerHTML = `<span class="icon">${item.icon}</span><span>${item.name}</span>`;
+            
+            btn.addEventListener('click', () => {
+                audio.currentTime = 0;
+                audio.play().catch(err => {
+                    console.log("播放失敗，請確認音檔是否存在：", err);
+                    alert("播放失敗，找不到音檔： " + item.file);
+                });
+
+                btn.classList.add('playing');
+                setTimeout(() => btn.classList.remove('playing'), 150);
+            });
+
+            grid.appendChild(btn);
+        });
+
+        function stopAllSounds() {
+            Object.values(audioElements).forEach(audio => {
+                audio.pause();
+                audio.currentTime = 0;
+            });
+        }
+    </script>
+</body>
+</html>
